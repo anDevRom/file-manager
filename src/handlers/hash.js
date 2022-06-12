@@ -1,6 +1,7 @@
 import { createReadStream, existsSync } from 'fs';
 import { createHash } from 'crypto';
 import { resolve } from 'path';
+import { rejects } from 'assert';
 
 export const hash = async (currentPath, pathToFile) => {
   const resolvedPathToFile = resolve(currentPath, pathToFile);
@@ -12,7 +13,7 @@ export const hash = async (currentPath, pathToFile) => {
   const hash = createHash('sha256');
   const sourceFile = createReadStream(resolvedPathToFile);
 
-  await new Promise((res) => {
+  await new Promise((res, rej) => {
     sourceFile.on('readable', () => {
       const data = sourceFile.read();
       
@@ -23,6 +24,11 @@ export const hash = async (currentPath, pathToFile) => {
         res();
       }
     });
-  })
+
+    sourceFile.on('error', (err) => {
+      rej();
+      throw err;
+    });
+  });
 };
 

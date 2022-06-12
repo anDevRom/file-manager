@@ -7,10 +7,14 @@ export const remove = async (currentPath, pathToFile) => {
 
   const fileIsExist = existsSync(resolvedPathToFile);
 
-  if (fileIsExist) {
-    await rm(resolvedPathToFile);
-    return;
+  if (!fileIsExist) {
+    throw new Error();
   }
 
-  throw new Error();
+  try {
+    await rm(resolvedPathToFile);
+    return;
+  } catch(err) {
+    throw err;
+  }
 };

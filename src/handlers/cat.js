@@ -8,7 +8,7 @@ export const cat = async (currentPath, pathToFile) => {
     throw new Error();
   }
 
-  await new Promise((res) => {
+  return await new Promise((res, rej) => {
     const source = createReadStream(resolvedPathToFile);
 
     source.on('data', (chunk) => {
@@ -17,6 +17,11 @@ export const cat = async (currentPath, pathToFile) => {
 
     source.on('end', () => {
       res();
+    });
+
+    source.on('error', (err) => {
+      rej();
+      throw err;
     });
   });
 };

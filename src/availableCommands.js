@@ -1,5 +1,5 @@
 import { currentPath } from '../index.js';
-import { cp } from './cp.js';
+import { cp } from './handlers/cp.js';
 import { add } from './handlers/add.js';
 import { cat } from './handlers/cat.js';
 import { compress } from './handlers/compress.js';

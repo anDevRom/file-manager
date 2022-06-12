@@ -21,4 +21,8 @@ export class CurrentPath {
 
     throw new Error();
   }
+
+  log() {
+    console.log(`You are currently in ${this._currentPath}`);
+  }
 }

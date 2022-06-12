@@ -15,15 +15,20 @@ export const compress = async (currentPath, pathToFile, pathToDir) => {
 
   const fileIsExist = existsSync(resolvedPathToFile);
   const dirIsExist = existsSync(resolvedPathToDir);
+  const compressedFileIsExist = existsSync(compressedFilePath);
 
-  if (fileIsExist && dirIsExist) {
+  if (!fileIsExist || !dirIsExist || compressedFileIsExist) {
+    throw new Error();
+  }
+
+  try {
     const source = createReadStream(resolvedPathToFile);
     const dest = createWriteStream(compressedFilePath);
     const brotli = createBrotliCompress();
     
     await pipe(source, brotli, dest);
     return;
+  } catch(err) {
+    throw err;
   }
-
-  throw new Error();
 };

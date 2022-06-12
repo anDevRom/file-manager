@@ -6,8 +6,9 @@ export const getOsInfo = (arg) => {
       console.log(JSON.stringify(EOL));
       return;
     case '--cpus':
-      cpus().forEach(cpu => {
-        console.log(cpu.model);
+      console.log(`Overall amount of CPUS: ${cpus().length}`);
+      cpus().forEach(({ model, speed }) => {
+        console.log(`${model.trim()} ${speed / 1000}GHz`);
       });
       return;
     case '--homedir':

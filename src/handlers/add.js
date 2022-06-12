@@ -10,8 +10,12 @@ export const add = async (currentPath, pathToFile) => {
 
   if (dirIsExist) {
     if (!fileIsExist) {
-      await appendFile(resolvedPathToFile, '');
-      return;
+      try {
+        await appendFile(resolvedPathToFile, '');
+        return;
+      } catch(err) {
+        throw err;
+      }
     }
   }
 

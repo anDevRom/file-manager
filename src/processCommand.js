@@ -1,8 +1,13 @@
 import { availableCommands } from './availableCommands.js';
-import { getCurrentDirPathMsg } from './helpers.js';
-import { rl } from '../index.js';
+import { currentPath, rl } from '../index.js';
 
 export const processCommand = async (commandStr) => {
+  if (!commandStr) {
+    currentPath.log();
+    rl.prompt();
+    return;
+  }
+
   const [command, ...args] = commandStr.trim().split(' ');
 
   const isAvailableCommand = availableCommands.hasOwnProperty(command);
@@ -16,14 +21,12 @@ export const processCommand = async (commandStr) => {
     try {
       await availableCommands[command].handler(args);
     } catch(err) {
-      console.log(err)
       console.log('Operation failed');
     }
   } else {
     console.log('Invalid input');
   }
 
-  console.log(getCurrentDirPathMsg());
-
+  currentPath.log();
   rl.prompt();
 };

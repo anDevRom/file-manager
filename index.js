@@ -1,13 +1,9 @@
 import { createInterface } from 'readline';
-import { CurrentPath } from './src/currentPath.js';
-import { 
-  getGreetMsg, 
-  getCurrentDirPathMsg,
-  getUserName,
-} from './src/helpers.js';
+import { CurrentPath } from './src/CurrentPath.js';
+import { User } from './src/User.js';
 import { processCommand } from './src/processCommand.js';
 
-const userName = getUserName();
+const user = new User();
 
 export const currentPath = new CurrentPath();
 
@@ -17,16 +13,15 @@ export const rl = createInterface({
   prompt: '> '
 });
 
-console.log(getGreetMsg(userName));
-console.log(getCurrentDirPathMsg());
+user.logGreet();
+currentPath.log();
 
 rl.prompt();
 
 rl.on('line', processCommand);
 
 const onCloseHandler = () => {
-  console.log(`\nThank you for using File Manager, ${userName}!`);
-
+  user.logBye();
   process.exit();
 };
 

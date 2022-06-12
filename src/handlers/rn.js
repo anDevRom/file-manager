@@ -10,10 +10,14 @@ export const rn = async (currentPath, pathToFile, newFileName) => {
   const fileIsExist = existsSync(resolvedPathToFile);
   const newFileNameIsExist = existsSync(resolvedNewPathToFile);
 
-  if (fileIsExist && !newFileNameIsExist) {
-    await rename(resolvedPathToFile, resolvedNewPathToFile);
-    return;
+  if (!fileIsExist || newFileNameIsExist) {
+    throw new Error();
   }
 
-  throw new Error();
+  try {
+    await rename(resolvedPathToFile, resolvedNewPathToFile);
+    return;
+  } catch(err) {
+    throw err;
+  }
 };
